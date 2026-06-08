@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>仙台旅行 しおり</title>
+<style>
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f7f9f6;
+    color: #333;
+  }
+  .mobile-wrapper {
+    max-width: 480px;
+    margin: 0 auto;
+    background-color: #ffffff;
+    min-height: 100vh;
+    padding-bottom: 80px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.05);
+    position: relative;
+  }
+  
+  .main-header {
+    background: #ffffff;
+    padding: 15px 20px 5px;
+    border-bottom: 1px solid #eaeaea;
+  }
+  .main-header h1 { margin: 0; font-size: 18px; font-weight: 800; color: #1b5e20;}
+  .main-header p { margin: 2px 0 0; font-size: 11px; color: #666;}
+  
+  .day-badge {
+    color: #2e7d32;
+    font-size: 13px;
+    font-weight: bold;
+    margin: 15px 20px 5px;
+  }
+
+  .app-card {
+    background: #ffffff;
+    border-radius: 12px;
+    margin: 0 15px 20px;
+    padding: 15px;
+    border: 1px solid #eaeaea;
+    scroll-margin-top: 15px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+  }
+
+  .spot-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+    color: #2c3e50;
+  }
+  .spot-icon { font-size: 16px; margin-right: 6px; }
+  .spot-time { font-size: 14px; font-weight: 800; margin-right: 8px; }
+  .spot-title { font-size: 16px; font-weight: bold; }
+
+  /* カルーセル（写真） */
+  .carousel-outer { margin-bottom: 12px; }
+  .carousel-wrapper {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    gap: 8px;
+    -webkit-overflow-scrolling: touch;
+  }
+  .carousel-wrapper::-webkit-scrollbar { display: none; }
+  
+  .carousel-item {
+    flex: 0 0 calc(100% - 16px);
+    scroll-snap-align: center;
+    position: relative;
+    height: 180px;
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: #f0f0f0;
+  }
+  
+  .carousel-item img, .carousel-item svg { width: 100%; height: 100%; object-fit: cover; }
+  
+  .carousel-label {
+    position: absolute;
+    bottom: 8px;
+    left: 10px;
+    background: rgba(0,0,0,0.5);
+    color: #fff;
+    font-size: 11px;
+    padding: 3px 8px;
+    border-radius: 12px;
+    backdrop-filter: blur(2px);
+  }
+
+  .info-table { width: 100%; border-collapse: collapse; margin-top: 5px; }
+  .info-table td { padding: 8px 4px; font-size: 12px; vertical-align: top; border-bottom: 1px dashed #f2f2f2; }
+  .info-table tr:last-child td { border-bottom: none; }
+  .info-table td.label { width: 85px; color: #888; font-weight: normal; }
+  .info-table td.value { color: #333; line-height: 1.5; }
+  .info-table td.value strong { color: #d35400;}
+  .info-table a { color: #2e7d32; text-decoration: none; font-weight: bold; }
+
+  /* カルーセル式 フッタータブ */
+  .app-footer {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 480px;
+    height: 65px;
+    background-color: #ffffff;
+    border-top: 1px solid #e5e5e5;
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    align-items: center;
+    z-index: 1000;
+    padding: 0 10px;
+  }
+  .app-footer::-webkit-scrollbar { display: none; }
+  
+  .footer-tab {
+    flex: 0 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #777;
+    text-decoration: none;
+    width: 75px;
+    scroll-snap-align: start;
+  }
+  .footer-tab-icon { font-size: 18px; margin-bottom: 3px; }
+  .footer-tab-text { 
+    font-size: 9px; 
+    font-weight: bold; 
+    text-align: center;
+    line-height: 1.2;
+    white-space: nowrap;
+  }
+  .footer-tab:active, .footer-tab:focus { color: #2e7d32; }
+
+  /* 予算表示用の強調スタイル */
+  .budget-highlight {
+    background-color: #f1f8e9;
+    padding: 8px;
+    border-radius: 6px;
+    margin-top: 4px;
+    font-size: 11px;
+    color: #555;
+  }
+</style>
+</head>
+<body>
+
+<div class="mobile-wrapper" id="top">
+  <div class="main-header">
+    <h1>🟢 仙台・杜の都満喫旅 しおり</h1>
+    <p>野生のハスと絶景・グルメを楽しむ 1泊2日</p>
+  </div>
+
+  <div class="app-card" style="background-color: #e8f5e9; border-color: #c8e6c9; margin-top: 15px;">
+    <div class="spot-header" style="color: #1b5e20; margin-bottom: 5px;">
+      <span class="spot-icon">✨</span><span class="spot-title">旅のポイント</span>
+    </div>
+    <div style="font-size: 12px; line-height: 1.5; color: #2e7d32;">
+      拠点（駅前）が完璧で移動が楽々！野生のハスが広がる大自然と、ジューシーな牛タンのギャップが最高なトリップです。
+    </div>
+  </div>
+
+  <div class="day-badge">1日目：大自然・池・グルメ</div>
+
+  <div class="app-card" id="spot1">
+    <div class="spot-header"><span class="spot-icon">🛶</span><span class="spot-time">日中</span><span class="spot-title">伊豆沼・内沼（または長沼）</span></div>
+    <div class="carousel-outer">
+      <div class="carousel-wrapper">
+        <div class="carousel-item">
+          <svg viewBox="0 0 600 300"><rect width="100%" height="100%" fill="#a3e4d7"/><text x="50%" y="50%" font-size="20" fill="#fff" text-anchor="middle" dominant-baseline="middle">ハスのジャングルの写真</text></svg>
+        </div>
+      </div>
+    </div>
+    <table class="info-table">
+      <tr><td class="label">体験</td><td class="value">小舟に乗ってハスのジャングルを進む大迫力体験！野生のハスが埋め尽くす巨大な池を大冒険。</td></tr>
+      <tr><td class="label">アクセス</td><td class="value">仙台駅から少し足を伸ばしたエリア</td></tr>
+      <tr><td class="label">マップ</td><td class="value"><a href="https://maps.google.com" target="_blank">Googleマップで開く ↗</a></td></tr>
+    </table>
+  </div>
+
+  <div class="app-card" id="hotel">
+    <div class="spot-header"><span class="spot-icon">🏨</span><span class="spot-time">夕方</span><span class="spot-title">ホテル京阪 仙台</span></div>
+    <div class="carousel-outer">
+      <div class="carousel-wrapper">
+        <div class="carousel-item">
+          <svg viewBox="0 0 600 300"><rect width="100%" height="100%" fill="#d5f5e3"/><text x="50%" y="50%" font-size="20" fill="#fff" text-anchor="middle" dominant-baseline="middle">ホテルの写真</text></svg>
+        </div>
+      </div>
+    </div>
+    <table class="info-table">
+      <tr><td class="label">立地</td><td class="value"><strong>仙台駅から徒歩8分</strong>（完璧な立地で移動の拠点に最適）</td></tr>
+      <tr><td class="label">プラン</td><td class="value">1泊・食事なし</td></tr>
+      <tr><td class="label">マップ</td><td class="value"><a href="https://maps.google.com" target="_blank">Googleマップで開く ↗</a></td></tr>
+    </table>
+  </div>
+
+  <div class="app-card" id="dinner">
+    <div class="spot-header"><span class="spot-icon">🥩</span><span class="spot-time">18:30</span><span class="spot-title">仙台駅前・牛タンの名店</span></div>
+    <div class="carousel-outer">
+      <div class="carousel-wrapper">
+        <div class="carousel-item">
+          <svg viewBox="0 0 600 300"><rect width="100%" height="100%" fill="#fad7a0"/><text x="50%" y="50%" font-size="20" fill="#fff" text-anchor="middle" dominant-baseline="middle">厚切り牛タンの写真</text></svg>
+        </div>
+      </div>
+    </div>
+    <table class="info-table">
+      <tr><td class="label">グルメ</td><td class="value">有名店でジューシーな<strong>「厚切り牛タン」</strong>とビールで乾杯！🍻</td></tr>
+      <tr><td class="label">エリア</td><td class="value">ホテルからも近い仙台駅前周辺</td></tr>
+    </table>
+  </div>
+
+
+  <div class="day-badge">2日目：動物園・絶景・グルメ</div>
+
+  <div class="app-card" id="spot2">
+    <div class="spot-header"><span class="spot-icon">🦁</span><span class="spot-time">AM</span><span class="spot-title">八木山動物公園</span></div>
+    <div class="carousel-outer">
+      <div class="carousel-wrapper">
+        <div class="carousel-item">
+          <svg viewBox="0 0 600 300"><rect width="100%" height="100%" fill="#f9ebd2"/><text x="50%" y="50%" font-size="20" fill="#fff" text-anchor="middle" dominant-baseline="middle">動物園の写真</text></svg>
+        </div>
+      </div>
+    </div>
+    <table class="info-table">
+      <tr><td class="label">概要</td><td class="value">市内の山の上にある綺麗な動物園。大迫力の猛獣たちを見てワイワイ楽しむ！</td></tr>
+      <tr><td class="label">アクセス</td><td class="value">仙台駅から<strong>地下鉄一本</strong>でアクセス可能。</td></tr>
+      <tr><td class="label">マップ</td><td class="value"><a href="https://maps.google.com" target="_blank">Googleマップで開く ↗</a></td></tr>
+    </table>
+  </div>
+
+  <div class="app-card" id="lunch">
+    <div class="spot-header"><span class="spot-icon">🍣</span><span class="spot-time">12:30</span><span class="spot-title">駅前ランチ＆スイーツ</span></div>
+    <div class="carousel-outer">
+      <div class="carousel-wrapper">
+        <div class="carousel-item">
+          <svg viewBox="0 0 600 300"><rect width="100%" height="100%" fill="#e8f8f5"/><text x="50%" y="50%" font-size="20" fill="#48c9b0" text-anchor="middle" dominant-baseline="middle">ずんだシェイク・お寿司の写真</text></svg>
+        </div>
+      </div>
+    </div>
+    <table class="info-table">
+      <tr><td class="label">ランチ</td><td class="value">三陸の新鮮なネタが揃う絶品お寿司を堪能。</td></tr>
+      <tr><td class="label">スイーツ</td><td class="value">食後は仙台名物<strong>「ずんだシェイク」</strong>で決まり！</td></tr>
+    </table>
+  </div>
+
+  <div class="app-card" id="spot3">
+    <div class="spot-header"><span class="spot-icon">🏞️</span><span class="spot-time">PM</span><span class="spot-title">磊々峡（らいらいきょう）</span></div>
+    <div class="carousel-outer">
+      <div class="carousel-wrapper">
+        <div class="carousel-item">
+          <svg viewBox="0 0 600 300"><rect width="100%" height="100%" fill="#d4efdf"/><text x="50%" y="50%" font-size="20" fill="#27ae60" text-anchor="middle" dominant-baseline="middle">磊々峡の写真</text></svg>
+        </div>
+      </div>
+    </div>
+    <table class="info-table">
+      <tr><td class="label">概要</td><td class="value">美しい渓谷の散策路。豊かな自然の中でマイナスイオンをたっぷりと浴びて、旅の締めくくりにリフレッシュ。</td></tr>
+      <tr><td class="label">マップ</td><td class="value"><a href="https://maps.google.com" target="_blank">Googleマップで開く ↗</a></td></tr>
+    </table>
+  </div>
+
+
+  <div class="day-badge" id="candidates">🗺️ その他の候補スポット（時間があれば）</div>
+  
+  <div class="app-card">
+    <div class="spot-header"><span class="spot-icon">⚡</span><span class="spot-title">ポケモンセンターセンダイ</span></div>
+    <table class="info-table">
+      <tr><td class="label">特徴</td><td class="value">仙台パルコ内。限定グッズやイベントがあり、駅からのアクセスも抜群なのでお土産選びにも最適。</td></tr>
+    </table>
+  </div>
+
+  <div class="app-card">
+    <div class="spot-header"><span class="spot-icon">🐬</span><span class="spot-title">仙台うみの杜水族館</span></div>
+    <table class="info-table">
+      <tr><td class="label">特徴</td><td class="value">三陸の豊かな海を再現した巨大水槽や、迫力あるイルカ・アシカショーが魅力の大人気スポット。</td></tr>
+    </table>
+  </div>
+
+
+  <div class="day-badge">💰 旅のまとめ</div>
+  <div class="app-card" id="budget" style="background-color: #fff9f0; border-color: #f7e6c9;">
+    <div class="spot-header" style="color: #d35400;">
+      <span class="spot-icon">💰</span>
+      <span class="spot-title">概算予算（1人あたり）</span>
+    </div>
+    <table class="info-table">
+      <tr>
+        <td class="label">交通費</td>
+        <td class="value">
+          約 23,000円
+          <div class="budget-highlight">新幹線（往復）</div>
+        </td>
+      </tr>
+      <tr>
+        <td class="label">宿泊費</td>
+        <td class="value">
+          約 7,000円 〜 10,000円
+          <div class="budget-highlight">ホテル京阪 仙台（1泊・食事なし）</div>
+        </td>
+      </tr>
+      <tr>
+        <td class="label">現地移動費</td>
+        <td class="value">
+          約 5,000円
+          <div class="budget-highlight">タクシー・地下鉄代（割り勘分）</div>
+        </td>
+      </tr>
+      <tr>
+        <td class="label">食事・体験</td>
+        <td class="value">
+          約 18,000円
+          <div class="budget-highlight">厚切り牛タン・ハス小舟・アクティビティ代など</div>
+        </td>
+      </tr>
+      <tr>
+        <td class="label" style="font-weight:bold; padding-top:12px;">合計目安</td>
+        <td class="value" style="font-weight:bold; color:#d35400; padding-top:12px; font-size:16px;">
+          約 53,000円 〜 65,000円
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="app-footer">
+    <a href="#spot1" class="footer-tab"><span class="footer-tab-icon">🛶</span><span class="footer-tab-text">伊豆沼</span></a>
+    <a href="#hotel" class="footer-tab"><span class="footer-tab-icon">🏨</span><span class="footer-tab-text">ホテル</span></a>
+    <a href="#dinner" class="footer-tab"><span class="footer-tab-icon">🥩</span><span class="footer-tab-text">牛タン</span></a>
+    <a href="#spot2" class="footer-tab"><span class="footer-tab-icon">🦁</span><span class="footer-tab-text">動物園</span></a>
+    <a href="#lunch" class="footer-tab"><span class="footer-tab-icon">🍣</span><span class="footer-tab-text">ランチ</span></a>
+    <a href="#spot3" class="footer-tab"><span class="footer-tab-icon">🏞️</span><span class="footer-tab-text">磊々峡</span></a>
+    <a href="#candidates" class="footer-tab"><span class="footer-tab-icon">🗺️</span><span class="footer-tab-text">候補地</span></a>
+    <a href="#budget" class="footer-tab"><span class="footer-tab-icon">💰</span><span class="footer-tab-text">予算</span></a>
+  </div>
+
+</div>
+
+</body>
+</html>
