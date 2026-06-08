@@ -81,18 +81,6 @@
   }
   
   .carousel-item img, .carousel-item svg { width: 100%; height: 100%; object-fit: cover; }
-  
-  .carousel-label {
-    position: absolute;
-    bottom: 8px;
-    left: 10px;
-    background: rgba(0,0,0,0.5);
-    color: #fff;
-    font-size: 11px;
-    padding: 3px 8px;
-    border-radius: 12px;
-    backdrop-filter: blur(2px);
-  }
 
   .info-table { width: 100%; border-collapse: collapse; margin-top: 5px; }
   .info-table td { padding: 8px 4px; font-size: 12px; vertical-align: top; border-bottom: 1px dashed #f2f2f2; }
@@ -143,7 +131,6 @@
   }
   .footer-tab:active, .footer-tab:focus { color: #2e7d32; }
 
-  /* 予算表示用の強調スタイル */
   .budget-highlight {
     background-color: #f1f8e9;
     padding: 8px;
@@ -162,19 +149,10 @@
     <p>野生のハスと絶景・グルメを楽しむ 1泊2日</p>
   </div>
 
-  <div class="app-card" style="background-color: #e8f5e9; border-color: #c8e6c9; margin-top: 15px;">
-    <div class="spot-header" style="color: #1b5e20; margin-bottom: 5px;">
-      <span class="spot-icon">✨</span><span class="spot-title">旅のポイント</span>
-    </div>
-    <div style="font-size: 12px; line-height: 1.5; color: #2e7d32;">
-      拠点（駅前）が完璧で移動が楽々！野生のハスが広がる大自然と、ジューシーな牛タンのギャップが最高なトリップです。
-    </div>
-  </div>
-
   <div class="day-badge">1日目：大自然・池・グルメ</div>
 
   <div class="app-card" id="spot1">
-    <div class="spot-header"><span class="spot-icon">🛶</span><span class="spot-time">日中</span><span class="spot-title">伊豆沼・内沼（または長沼）</span></div>
+    <div class="spot-header"><span class="spot-icon">🛶</span><span class="spot-time">11:00</span><span class="spot-title">伊豆沼・内沼（または長沼）</span></div>
     <div class="carousel-outer">
       <div class="carousel-wrapper">
         <div class="carousel-item">
@@ -183,14 +161,16 @@
       </div>
     </div>
     <table class="info-table">
-      <tr><td class="label">体験</td><td class="value">小舟に乗ってハスのジャングルを進む大迫力体験！野生のハスが埋め尽くす巨大な池を大冒険。</td></tr>
-      <tr><td class="label">アクセス</td><td class="value">仙台駅から少し足を伸ばしたエリア</td></tr>
-      <tr><td class="label">マップ</td><td class="value"><a href="https://maps.google.com" target="_blank">Googleマップで開く ↗</a></td></tr>
+      <tr><td class="label">移動メモ</td><td class="value">仙台駅から電車で約50分。到着後、小舟乗り場へ。</td></tr>
+      <tr><td class="label">営業</td><td class="value">8:00〜16:00頃（ハスまつり期間中）</td></tr>
+      <tr><td class="label">定休日</td><td class="value">期間中無休</td></tr>
+      <tr><td class="label">体験</td><td class="value">小舟に乗ってハスのジャングルを進む大迫力体験！</td></tr>
+      <tr><td class="label">マップ</td><td class="value"><a href="https://www.google.com/maps/search/?api=1&query=伊豆沼" target="_blank">Googleマップで開く ↗</a></td></tr>
     </table>
   </div>
 
   <div class="app-card" id="hotel">
-    <div class="spot-header"><span class="spot-icon">🏨</span><span class="spot-time">夕方</span><span class="spot-title">ホテル京阪 仙台</span></div>
+    <div class="spot-header"><span class="spot-icon">🏨</span><span class="spot-time">16:00</span><span class="spot-title">ホテル京阪 仙台</span></div>
     <div class="carousel-outer">
       <div class="carousel-wrapper">
         <div class="carousel-item">
@@ -199,9 +179,11 @@
       </div>
     </div>
     <table class="info-table">
-      <tr><td class="label">立地</td><td class="value"><strong>仙台駅から徒歩8分</strong>（完璧な立地で移動の拠点に最適）</td></tr>
-      <tr><td class="label">プラン</td><td class="value">1泊・食事なし</td></tr>
-      <tr><td class="label">マップ</td><td class="value"><a href="https://maps.google.com" target="_blank">Googleマップで開く ↗</a></td></tr>
+      <tr><td class="label">移動メモ</td><td class="value">電車で仙台駅へ戻り（約50分）、駅から徒歩8分でホテルへ。</td></tr>
+      <tr><td class="label">営業</td><td class="value">チェックイン: 15:00〜<br>チェックアウト: 11:00</td></tr>
+      <tr><td class="label">定休日</td><td class="value">年中無休</td></tr>
+      <tr><td class="label">立地</td><td class="value">完璧な立地で移動の拠点に最適。</td></tr>
+      <tr><td class="label">マップ</td><td class="value"><a href="https://www.google.com/maps/search/?api=1&query=ホテル京阪+仙台" target="_blank">Googleマップで開く ↗</a></td></tr>
     </table>
   </div>
 
@@ -215,8 +197,11 @@
       </div>
     </div>
     <table class="info-table">
-      <tr><td class="label">グルメ</td><td class="value">有名店でジューシーな<strong>「厚切り牛タン」</strong>とビールで乾杯！🍻</td></tr>
-      <tr><td class="label">エリア</td><td class="value">ホテルからも近い仙台駅前周辺</td></tr>
+      <tr><td class="label">移動メモ</td><td class="value">ホテルから徒歩圏内。駅前の繁華街へ。</td></tr>
+      <tr><td class="label">営業</td><td class="value">11:00〜22:30頃（※店舗により異なる）</td></tr>
+      <tr><td class="label">定休日</td><td class="value">不定休</td></tr>
+      <tr><td class="label">グルメ</td><td class="value">有名店でジューシーな<strong>「厚切り牛タン」</strong>とビールで乾杯！</td></tr>
+      <tr><td class="label">マップ</td><td class="value"><a href="https://www.google.com/maps/search/?api=1&query=仙台駅+牛タン" target="_blank">Googleマップで開く ↗</a></td></tr>
     </table>
   </div>
 
@@ -224,7 +209,7 @@
   <div class="day-badge">2日目：動物園・絶景・グルメ</div>
 
   <div class="app-card" id="spot2">
-    <div class="spot-header"><span class="spot-icon">🦁</span><span class="spot-time">AM</span><span class="spot-title">八木山動物公園</span></div>
+    <div class="spot-header"><span class="spot-icon">🦁</span><span class="spot-time">09:30</span><span class="spot-title">八木山動物公園</span></div>
     <div class="carousel-outer">
       <div class="carousel-wrapper">
         <div class="carousel-item">
@@ -233,9 +218,11 @@
       </div>
     </div>
     <table class="info-table">
-      <tr><td class="label">概要</td><td class="value">市内の山の上にある綺麗な動物園。大迫力の猛獣たちを見てワイワイ楽しむ！</td></tr>
-      <tr><td class="label">アクセス</td><td class="value">仙台駅から<strong>地下鉄一本</strong>でアクセス可能。</td></tr>
-      <tr><td class="label">マップ</td><td class="value"><a href="https://maps.google.com" target="_blank">Googleマップで開く ↗</a></td></tr>
+      <tr><td class="label">移動メモ</td><td class="value">仙台駅から地下鉄東西線で約12分。駅直結でアクセス抜群。</td></tr>
+      <tr><td class="label">営業</td><td class="value">9:00〜16:45（最終入園 16:00）</td></tr>
+      <tr><td class="label">定休日</td><td class="value">月曜日（祝日の場合は翌日休園）</td></tr>
+      <tr><td class="label">概要</td><td class="value">市内の山の上にある綺麗な動物園。大迫力の猛獣たちを見て楽しむ。</td></tr>
+      <tr><td class="label">マップ</td><td class="value"><a href="https://www.google.com/maps/search/?api=1&query=八木山動物公園" target="_blank">Googleマップで開く ↗</a></td></tr>
     </table>
   </div>
 
@@ -249,13 +236,16 @@
       </div>
     </div>
     <table class="info-table">
-      <tr><td class="label">ランチ</td><td class="value">三陸の新鮮なネタが揃う絶品お寿司を堪能。</td></tr>
-      <tr><td class="label">スイーツ</td><td class="value">食後は仙台名物<strong>「ずんだシェイク」</strong>で決まり！</td></tr>
+      <tr><td class="label">移動メモ</td><td class="value">地下鉄で仙台駅へ戻る（約12分）。駅ビル（エスパル等）内で食事。</td></tr>
+      <tr><td class="label">営業</td><td class="value">10:00〜21:00頃（※店舗に準ずる）</td></tr>
+      <tr><td class="label">定休日</td><td class="value">施設に準ずる</td></tr>
+      <tr><td class="label">グルメ</td><td class="value">三陸の新鮮な絶品お寿司と、食後の名物<strong>「ずんだシェイク」</strong>！</td></tr>
+      <tr><td class="label">マップ</td><td class="value"><a href="https://www.google.com/maps/search/?api=1&query=仙台駅+寿司+ずんだ" target="_blank">Googleマップで開く ↗</a></td></tr>
     </table>
   </div>
 
   <div class="app-card" id="spot3">
-    <div class="spot-header"><span class="spot-icon">🏞️</span><span class="spot-time">PM</span><span class="spot-title">磊々峡（らいらいきょう）</span></div>
+    <div class="spot-header"><span class="spot-icon">🏞️</span><span class="spot-time">14:30</span><span class="spot-title">磊々峡（らいらいきょう）</span></div>
     <div class="carousel-outer">
       <div class="carousel-wrapper">
         <div class="carousel-item">
@@ -264,8 +254,11 @@
       </div>
     </div>
     <table class="info-table">
-      <tr><td class="label">概要</td><td class="value">美しい渓谷の散策路。豊かな自然の中でマイナスイオンをたっぷりと浴びて、旅の締めくくりにリフレッシュ。</td></tr>
-      <tr><td class="label">マップ</td><td class="value"><a href="https://maps.google.com" target="_blank">Googleマップで開く ↗</a></td></tr>
+      <tr><td class="label">移動メモ</td><td class="value">仙台駅前から秋保温泉方面のバスで約50分（車なら約30分）。</td></tr>
+      <tr><td class="label">営業</td><td class="value">24時間見学自由（日中の散策推奨）</td></tr>
+      <tr><td class="label">定休日</td><td class="value">なし</td></tr>
+      <tr><td class="label">概要</td><td class="value">美しい渓谷の散策路。自然の中でマイナスイオンをたっぷり浴びてリフレッシュ。</td></tr>
+      <tr><td class="label">マップ</td><td class="value"><a href="https://www.google.com/maps/search/?api=1&query=磊々峡" target="_blank">Googleマップで開く ↗</a></td></tr>
     </table>
   </div>
 
@@ -275,14 +268,20 @@
   <div class="app-card">
     <div class="spot-header"><span class="spot-icon">⚡</span><span class="spot-title">ポケモンセンターセンダイ</span></div>
     <table class="info-table">
-      <tr><td class="label">特徴</td><td class="value">仙台パルコ内。限定グッズやイベントがあり、駅からのアクセスも抜群なのでお土産選びにも最適。</td></tr>
+      <tr><td class="label">営業</td><td class="value">10:00〜20:30</td></tr>
+      <tr><td class="label">定休日</td><td class="value">仙台パルコに準ずる</td></tr>
+      <tr><td class="label">特徴</td><td class="value">仙台パルコ内。限定グッズやイベントがあり、駅直結でアクセス抜群。</td></tr>
+      <tr><td class="label">マップ</td><td class="value"><a href="https://www.google.com/maps/search/?api=1&query=ポケモンセンターセンダイ" target="_blank">Googleマップで開く ↗</a></td></tr>
     </table>
   </div>
 
   <div class="app-card">
     <div class="spot-header"><span class="spot-icon">🐬</span><span class="spot-title">仙台うみの杜水族館</span></div>
     <table class="info-table">
-      <tr><td class="label">特徴</td><td class="value">三陸の豊かな海を再現した巨大水槽や、迫力あるイルカ・アシカショーが魅力の大人気スポット。</td></tr>
+      <tr><td class="label">営業</td><td class="value">9:00〜17:30（※季節により変動あり）</td></tr>
+      <tr><td class="label">定休日</td><td class="value">年中無休</td></tr>
+      <tr><td class="label">特徴</td><td class="value">三陸の海を再現した巨大水槽や、迫力あるイルカショーが魅力。</td></tr>
+      <tr><td class="label">マップ</td><td class="value"><a href="https://www.google.com/maps/search/?api=1&query=仙台うみの杜水族館" target="_blank">Googleマップで開く ↗</a></td></tr>
     </table>
   </div>
 
@@ -312,7 +311,7 @@
         <td class="label">現地移動費</td>
         <td class="value">
           約 5,000円
-          <div class="budget-highlight">タクシー・地下鉄代（割り勘分）</div>
+          <div class="budget-highlight">タクシー・地下鉄・バス代（割り勘分）</div>
         </td>
       </tr>
       <tr>
