@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>仙台旅行 しおり</title>
+<title>伊豆・贅沢ヴィラ旅 しおり</title>
 <style>
   * { box-sizing: border-box; }
   html { scroll-behavior: smooth; }
@@ -11,7 +11,7 @@
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f7f9f6;
+    background-color: #fdfdfc;
     color: #333;
   }
   .mobile-wrapper {
@@ -29,11 +29,11 @@
     padding: 15px 20px 5px;
     border-bottom: 1px solid #eaeaea;
   }
-  .main-header h1 { margin: 0; font-size: 18px; font-weight: 800; color: #1b5e20;}
-  .main-header p { margin: 2px 0 0; font-size: 11px; color: #666;}
+  .main-header h1 { margin: 0; font-size: 18px; font-weight: 800; color: #2c3e50;}
+  .main-header p { margin: 2px 0 0; font-size: 11px; color: #777;}
   
   .day-badge {
-    color: #2e7d32;
+    color: #a87e4f;
     font-size: 13px;
     font-weight: bold;
     margin: 15px 20px 5px;
@@ -79,16 +79,52 @@
     overflow: hidden;
     background-color: #f0f0f0;
   }
+  .carousel-item.half { flex: 0 0 80%; }
   
   .carousel-item img, .carousel-item svg { width: 100%; height: 100%; object-fit: cover; }
+  
+  .carousel-label {
+    position: absolute;
+    bottom: 8px;
+    left: 10px;
+    background: rgba(0,0,0,0.5);
+    color: #fff;
+    font-size: 11px;
+    padding: 3px 8px;
+    border-radius: 12px;
+    backdrop-filter: blur(2px);
+  }
+
+  .swipe-hint {
+    text-align: center;
+    font-size: 10px;
+    color: #888;
+    margin-top: 5px;
+  }
 
   .info-table { width: 100%; border-collapse: collapse; margin-top: 5px; }
   .info-table td { padding: 8px 4px; font-size: 12px; vertical-align: top; border-bottom: 1px dashed #f2f2f2; }
   .info-table tr:last-child td { border-bottom: none; }
   .info-table td.label { width: 85px; color: #888; font-weight: normal; }
   .info-table td.value { color: #333; line-height: 1.5; }
-  .info-table td.value strong { color: #d35400;}
-  .info-table a { color: #2e7d32; text-decoration: none; font-weight: bold; }
+  .info-table a { color: #4285F4; text-decoration: none; font-weight: bold; }
+
+  /* 夕食候補 */
+  .dinner-choice { border-top: 1px solid #f2f2f2; padding: 10px 0; }
+  .dinner-choice:first-child { border-top: none; }
+  .dinner-choice-title { font-size: 13px; font-weight: bold; color: #2c3e50; margin-bottom: 3px; }
+  .dinner-choice-desc { font-size: 11px; color: #666; line-height: 1.4; margin-bottom: 5px;}
+  .map-btn-small {
+    display: inline-block;
+    background-color: #eef3f9;
+    color: #4285F4;
+    padding: 5px 10px;
+    border-radius: 12px;
+    font-size: 10px;
+    font-weight: bold;
+    text-decoration: none;
+    border: 1px solid #d4e1f4;
+  }
 
   /* カルーセル式 フッタータブ */
   .app-footer {
@@ -129,15 +165,45 @@
     line-height: 1.2;
     white-space: nowrap;
   }
-  .footer-tab:active, .footer-tab:focus { color: #2e7d32; }
+  .footer-tab:active, .footer-tab:focus { color: #e67e22; }
 
-  .budget-highlight {
-    background-color: #f1f8e9;
-    padding: 8px;
-    border-radius: 6px;
-    margin-top: 4px;
-    font-size: 11px;
+  /* ★予算カード専用：キャプチャを元にひと回り小さく調整 */
+  .budget-card {
+    background-color: #fffaf4; 
+    border-color: #fce8d5;
+    padding: 12px 14px; /* 余白を少し詰めてコンパクトに */
+  }
+  .budget-table { margin-top: 10px; }
+  .budget-table td { 
+    padding: 8px 2px; /* 縦のパディングを狭く */
+    border-bottom: 1px dashed #f5ecd8; 
+    vertical-align: top;
+    font-size: 11px; /* 全体を1項目小さく */
+  }
+  .budget-table tr:last-child td { border-bottom: none; }
+  .budget-table .label { width: 80px; color: #666; font-weight: normal; }
+  .budget-table .value { color: #333; font-size: 11px; }
+  .budget-detail-box {
+    background-color: #f0f7ef; /* キャプチャ通りの薄緑 */
     color: #555;
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 10px;
+    margin-top: 5px;
+    line-height: 1.3;
+  }
+  /* キャプチャ風の合計目安行 */
+  .budget-table .total-label {
+    font-size: 12px;
+    font-weight: bold;
+    color: #666;
+    padding-top: 12px;
+  }
+  .budget-table .total-value {
+    font-size: 14px;
+    font-weight: bold;
+    color: #e65100; /* キャプチャ風のはっきりした濃いオレンジ */
+    padding-top: 12px;
   }
 </style>
 </head>
@@ -145,198 +211,196 @@
 
 <div class="mobile-wrapper" id="top">
   <div class="main-header">
-    <h1>🟢 仙台・杜の都満喫旅 しおり</h1>
-    <p>野生のハスと絶景・グルメを楽しむ 1泊2日</p>
+    <h1>🏡 伊豆高原・贅沢ヴィラ旅 しおり</h1>
+    <p>絶景とカピバラに癒やされる 1泊2日</p>
   </div>
 
-  <div class="day-badge">1日目：大自然・池・グルメ</div>
+  <div class="day-badge">1日目：大自然と絶景巡り</div>
 
   <div class="app-card" id="spot1">
-    <div class="spot-header"><span class="spot-icon">🛶</span><span class="spot-time">11:00</span><span class="spot-title">伊豆沼・内沼（または長沼）</span></div>
+    <div class="spot-header"><span class="spot-icon">🦢</span><span class="spot-time">11:00</span><span class="spot-title">一碧湖</span></div>
     <div class="carousel-outer">
       <div class="carousel-wrapper">
         <div class="carousel-item">
-          <svg viewBox="0 0 600 300"><rect width="100%" height="100%" fill="#a3e4d7"/><text x="50%" y="50%" font-size="20" fill="#fff" text-anchor="middle" dominant-baseline="middle">ハスのジャングルの写真</text></svg>
+          <svg viewBox="0 0 600 300"><rect width="100%" height="100%" fill="#a2d5c6"/><text x="50%" y="50%" font-size="20" fill="#fff" text-anchor="middle" dominant-baseline="middle">一碧湖の写真</text></svg>
         </div>
       </div>
     </div>
     <table class="info-table">
-      <tr><td class="label">移動メモ</td><td class="value">仙台駅から電車で約50分。到着後、小舟乗り場へ。</td></tr>
-      <tr><td class="label">営業</td><td class="value">8:00〜16:00頃（ハスまつり期間中）</td></tr>
-      <tr><td class="label">定休日</td><td class="value">期間中無休</td></tr>
-      <tr><td class="label">体験</td><td class="value">小舟に乗ってハスのジャングルを進む大迫力体験！</td></tr>
-      <tr><td class="label">マップ</td><td class="value"><a href="https://www.google.com/maps/search/?api=1&query=伊豆沼" target="_blank">Googleマップで開く ↗</a></td></tr>
+      <tr><td class="label">営業</td><td class="value">24時間自由見学</td></tr>
+      <tr><td class="label">定休日</td><td class="value">なし</td></tr>
+      <tr><td class="label">概要</td><td class="value">「伊豆の瞳」と呼ばれる美しい湖。まずは緑豊かな遊歩道を散策。</td></tr>
+      <tr><td class="label">マップ</td><td class="value"><a href="https://www.google.com/maps/search/?api=1&query=一碧湖" target="_blank">Googleマップで開く ↗</a></td></tr>
     </table>
   </div>
-
-  <div class="app-card" id="hotel">
-    <div class="spot-header"><span class="spot-icon">🏨</span><span class="spot-time">16:00</span><span class="spot-title">ホテル京阪 仙台</span></div>
-    <div class="carousel-outer">
-      <div class="carousel-wrapper">
-        <div class="carousel-item">
-          <svg viewBox="0 0 600 300"><rect width="100%" height="100%" fill="#d5f5e3"/><text x="50%" y="50%" font-size="20" fill="#fff" text-anchor="middle" dominant-baseline="middle">ホテルの写真</text></svg>
-        </div>
-      </div>
-    </div>
-    <table class="info-table">
-      <tr><td class="label">移動メモ</td><td class="value">電車で仙台駅へ戻り（約50分）、駅から徒歩8分でホテルへ。</td></tr>
-      <tr><td class="label">営業</td><td class="value">チェックイン: 15:00〜<br>チェックアウト: 11:00</td></tr>
-      <tr><td class="label">定休日</td><td class="value">年中無休</td></tr>
-      <tr><td class="label">立地</td><td class="value">完璧な立地で移動の拠点に最適。</td></tr>
-      <tr><td class="label">マップ</td><td class="value"><a href="https://www.google.com/maps/search/?api=1&query=ホテル京阪+仙台" target="_blank">Googleマップで開く ↗</a></td></tr>
-    </table>
-  </div>
-
-  <div class="app-card" id="dinner">
-    <div class="spot-header"><span class="spot-icon">🥩</span><span class="spot-time">18:30</span><span class="spot-title">仙台駅前・牛タンの名店</span></div>
-    <div class="carousel-outer">
-      <div class="carousel-wrapper">
-        <div class="carousel-item">
-          <svg viewBox="0 0 600 300"><rect width="100%" height="100%" fill="#fad7a0"/><text x="50%" y="50%" font-size="20" fill="#fff" text-anchor="middle" dominant-baseline="middle">厚切り牛タンの写真</text></svg>
-        </div>
-      </div>
-    </div>
-    <table class="info-table">
-      <tr><td class="label">移動メモ</td><td class="value">ホテルから徒歩圏内。駅前の繁華街へ。</td></tr>
-      <tr><td class="label">営業</td><td class="value">11:00〜22:30頃（※店舗により異なる）</td></tr>
-      <tr><td class="label">定休日</td><td class="value">不定休</td></tr>
-      <tr><td class="label">グルメ</td><td class="value">有名店でジューシーな<strong>「厚切り牛タン」</strong>とビールで乾杯！</td></tr>
-      <tr><td class="label">マップ</td><td class="value"><a href="https://www.google.com/maps/search/?api=1&query=仙台駅+牛タン" target="_blank">Googleマップで開く ↗</a></td></tr>
-    </table>
-  </div>
-
-
-  <div class="day-badge">2日目：動物園・絶景・グルメ</div>
 
   <div class="app-card" id="spot2">
-    <div class="spot-header"><span class="spot-icon">🦁</span><span class="spot-time">09:30</span><span class="spot-title">八木山動物公園</span></div>
+    <div class="spot-header"><span class="spot-icon">🌊</span><span class="spot-time">14:00</span><span class="spot-title">城ヶ崎海岸</span></div>
     <div class="carousel-outer">
       <div class="carousel-wrapper">
         <div class="carousel-item">
-          <svg viewBox="0 0 600 300"><rect width="100%" height="100%" fill="#f9ebd2"/><text x="50%" y="50%" font-size="20" fill="#fff" text-anchor="middle" dominant-baseline="middle">動物園の写真</text></svg>
+          <svg viewBox="0 0 600 300"><rect width="100%" height="100%" fill="#778899"/><text x="50%" y="50%" font-size="20" fill="#fff" text-anchor="middle" dominant-baseline="middle">城ヶ崎海岸の写真</text></svg>
         </div>
       </div>
     </div>
     <table class="info-table">
-      <tr><td class="label">移動メモ</td><td class="value">仙台駅から地下鉄東西線で約12分。駅直結でアクセス抜群。</td></tr>
-      <tr><td class="label">営業</td><td class="value">9:00〜16:45（最終入園 16:00）</td></tr>
-      <tr><td class="label">定休日</td><td class="value">月曜日（祝日の場合は翌日休園）</td></tr>
-      <tr><td class="label">概要</td><td class="value">市内の山の上にある綺麗な動物園。大迫力の猛獣たちを見て楽しむ。</td></tr>
-      <tr><td class="label">マップ</td><td class="value"><a href="https://www.google.com/maps/search/?api=1&query=八木山動物公園" target="_blank">Googleマップで開く ↗</a></td></tr>
-    </table>
-  </div>
-
-  <div class="app-card" id="lunch">
-    <div class="spot-header"><span class="spot-icon">🍣</span><span class="spot-time">12:30</span><span class="spot-title">駅前ランチ＆スイーツ</span></div>
-    <div class="carousel-outer">
-      <div class="carousel-wrapper">
-        <div class="carousel-item">
-          <svg viewBox="0 0 600 300"><rect width="100%" height="100%" fill="#e8f8f5"/><text x="50%" y="50%" font-size="20" fill="#48c9b0" text-anchor="middle" dominant-baseline="middle">ずんだシェイク・お寿司の写真</text></svg>
-        </div>
-      </div>
-    </div>
-    <table class="info-table">
-      <tr><td class="label">移動メモ</td><td class="value">地下鉄で仙台駅へ戻る（約12分）。駅ビル（エスパル等）内で食事。</td></tr>
-      <tr><td class="label">営業</td><td class="value">10:00〜21:00頃（※店舗に準ずる）</td></tr>
-      <tr><td class="label">定休日</td><td class="value">施設に準ずる</td></tr>
-      <tr><td class="label">グルメ</td><td class="value">三陸の新鮮な絶品お寿司と、食後の名物<strong>「ずんだシェイク」</strong>！</td></tr>
-      <tr><td class="label">マップ</td><td class="value"><a href="https://www.google.com/maps/search/?api=1&query=仙台駅+寿司+ずんだ" target="_blank">Googleマップで開く ↗</a></td></tr>
+      <tr><td class="label">営業</td><td class="value">24時間（※散策路は日没までを推奨）</td></tr>
+      <tr><td class="label">定休日</td><td class="value">なし</td></tr>
+      <tr><td class="label">概要</td><td class="value">スリル満点な門脇吊り橋からの景色は圧巻！絶景をバックに記念撮影。</td></tr>
+      <tr><td class="label">マップ</td><td class="value"><a href="https://www.google.com/maps/search/?api=1&query=城ヶ崎海岸+門脇吊り橋" target="_blank">Googleマップで開く ↗</a></td></tr>
     </table>
   </div>
 
   <div class="app-card" id="spot3">
-    <div class="spot-header"><span class="spot-icon">🏞️</span><span class="spot-time">14:30</span><span class="spot-title">磊々峡（らいらいきょう）</span></div>
+    <div class="spot-header"><span class="spot-icon">🏨</span><span class="spot-time">16:00</span><span class="spot-title">ヴィラージュ伊豆高原</span></div>
     <div class="carousel-outer">
       <div class="carousel-wrapper">
         <div class="carousel-item">
-          <svg viewBox="0 0 600 300"><rect width="100%" height="100%" fill="#d4efdf"/><text x="50%" y="50%" font-size="20" fill="#27ae60" text-anchor="middle" dominant-baseline="middle">磊々峡の写真</text></svg>
+          <svg viewBox="0 0 600 300"><rect width="100%" height="100%" fill="#e0bfb8"/><text x="50%" y="50%" font-size="20" fill="#fff" text-anchor="middle" dominant-baseline="middle">ホテルの写真</text></svg>
         </div>
       </div>
     </div>
     <table class="info-table">
-      <tr><td class="label">移動メモ</td><td class="value">仙台駅前から秋保温泉方面のバスで約50分（車なら約30分）。</td></tr>
-      <tr><td class="label">営業</td><td class="value">24時間見学自由（日中の散策推奨）</td></tr>
-      <tr><td class="label">定休日</td><td class="value">なし</td></tr>
-      <tr><td class="label">概要</td><td class="value">美しい渓谷の散策路。自然の中でマイナスイオンをたっぷり浴びてリフレッシュ。</td></tr>
-      <tr><td class="label">マップ</td><td class="value"><a href="https://www.google.com/maps/search/?api=1&query=磊々峡" target="_blank">Googleマップで開く ↗</a></td></tr>
+      <tr><td class="label">営業</td><td class="value"><strong>チェックイン: 15:00〜18:00</strong><br>チェックアウト: 11:00</td></tr>
+      <tr><td class="label">定休日</td><td class="value">なし（年中無休）</td></tr>
+      <tr><td class="label">過ごし方</td><td class="value">チェックインして夕食まで、自慢の温泉でリフレッシュ！</td></tr>
+      <tr><td class="label">マップ</td><td class="value"><a href="https://www.google.com/maps/search/?api=1&query=ヴィラージュ伊豆高原" target="_blank">Googleマップで開く ↗</a></td></tr>
     </table>
   </div>
 
-
-  <div class="day-badge" id="candidates">🗺️ その他の候補スポット（時間があれば）</div>
-  
-  <div class="app-card">
-    <div class="spot-header"><span class="spot-icon">⚡</span><span class="spot-title">ポケモンセンターセンダイ</span></div>
-    <table class="info-table">
-      <tr><td class="label">営業</td><td class="value">10:00〜20:30</td></tr>
-      <tr><td class="label">定休日</td><td class="value">仙台パルコに準ずる</td></tr>
-      <tr><td class="label">特徴</td><td class="value">仙台パルコ内。限定グッズやイベントがあり、駅直結でアクセス抜群。</td></tr>
-      <tr><td class="label">マップ</td><td class="value"><a href="https://www.google.com/maps/search/?api=1&query=ポケモンセンターセンダイ" target="_blank">Googleマップで開く ↗</a></td></tr>
-    </table>
+  <div class="app-card" id="dinner">
+    <div class="spot-header"><span class="spot-icon">🍽️</span><span class="spot-time">18:00</span><span class="spot-title">夕食スポット（候補4選）</span></div>
+    <div class="dinner-choices-list">
+      <div class="dinner-choice">
+        <div class="dinner-choice-title">和むら 総本店</div>
+        <div class="dinner-choice-desc"><strong>営業:</strong> 11:00〜15:00 / 17:00〜20:30<br><strong>定休:</strong> 木曜日</div>
+        <div class="dinner-choice-desc">圧巻の「特大エビフライ」やこだわりトンカツ。</div>
+        <a href="https://www.google.com/maps/search/?api=1&query=和むら+総本店+伊豆" target="_blank" class="map-btn-small">📍 マップ・経路</a>
+      </div>
+      <div class="dinner-choice">
+        <div class="dinner-choice-title">伊豆高原ビール本店レストラン</div>
+        <div class="dinner-choice-desc"><strong>営業:</strong> 11:00〜21:00 (L.O. 20:30)<br><strong>定休:</strong> 不定休</div>
+        <div class="dinner-choice-desc">山盛りの「漁師めし」！地ビールとわいわい楽しむならここ。</div>
+        <a href="https://www.google.com/maps/search/?api=1&query=伊豆高原ビール本店レストラン" target="_blank" class="map-btn-small">📍 マップ・経路</a>
+      </div>
+      <div class="dinner-choice">
+        <div class="dinner-choice-title">本家鮪屋 伊豆高原本店</div>
+        <div class="dinner-choice-desc"><strong>営業:</strong> 11:30〜14:45 / 17:30〜20:00<br><strong>定休:</strong> 水曜日・木曜日</div>
+        <div class="dinner-choice-desc">極上の『地金目鯛の炙り丼』など海の幸を堪能。</div>
+        <a href="https://www.google.com/maps/search/?api=1&query=本家鮪屋+伊豆高原本店" target="_blank" class="map-btn-small">📍 マップ・経路</a>
+      </div>
+      <div class="dinner-choice">
+        <div class="dinner-choice-title">ミクニ伊豆高原</div>
+        <div class="dinner-choice-desc"><strong>営業:</strong> 11:00〜20:00 (19:00 L.O.)<br><strong>定休:</strong> 火曜日・水曜日</div>
+        <div class="dinner-choice-desc">隈研吾氏デザインの絶景空間でいただく贅沢フレンチ。</div>
+        <a href="https://www.google.com/maps/search/?api=1&query=ミクニ伊豆高原" target="_blank" class="map-btn-small">📍 マップ・経路</a>
+      </div>
+    </div>
   </div>
 
-  <div class="app-card">
-    <div class="spot-header"><span class="spot-icon">🐬</span><span class="spot-title">仙台うみの杜水族館</span></div>
-    <table class="info-table">
-      <tr><td class="label">営業</td><td class="value">9:00〜17:30（※季節により変動あり）</td></tr>
-      <tr><td class="label">定休日</td><td class="value">年中無休</td></tr>
-      <tr><td class="label">特徴</td><td class="value">三陸の海を再現した巨大水槽や、迫力あるイルカショーが魅力。</td></tr>
-      <tr><td class="label">マップ</td><td class="value"><a href="https://www.google.com/maps/search/?api=1&query=仙台うみの杜水族館" target="_blank">Googleマップで開く ↗</a></td></tr>
-    </table>
-  </div>
+  <div class="day-badge">2日目：動物エンタメとランチ</div>
 
-
-  <div class="day-badge">💰 旅のまとめ</div>
-  <div class="app-card" id="budget" style="background-color: #fff9f0; border-color: #f7e6c9;">
-    <div class="spot-header" style="color: #d35400;">
-      <span class="spot-icon">💰</span>
-      <span class="spot-title">概算予算（1人あたり）</span>
+  <div class="app-card" id="spot5">
+    <div class="spot-header"><span class="spot-icon">🦙</span><span class="spot-time">09:30</span><span class="spot-title">伊豆シャボテン動物公園</span></div>
+    <div class="carousel-outer">
+      <div class="carousel-wrapper">
+        <div class="carousel-item">
+          <svg viewBox="0 0 600 300"><rect width="100%" height="100%" fill="#f19e93"/><text x="50%" y="50%" font-size="20" fill="#fff" text-anchor="middle" dominant-baseline="middle">カピバラの写真</text></svg>
+        </div>
+      </div>
     </div>
     <table class="info-table">
+      <tr><td class="label">営業</td><td class="value"><strong>9:00〜17:00（最終入園 16:00）</strong></td></tr>
+      <tr><td class="label">定休日</td><td class="value">年中無休</td></tr>
+      <tr><td class="label">概要</td><td class="value">カピバラやリスザルたちに直接エサやりができる体験型動物園。</td></tr>
+      <tr><td class="label">マップ</td><td class="value"><a href="https://www.google.com/maps/search/?api=1&query=伊豆シャボテン動物公園" target="_blank">Googleマップで開く ↗</a></td></tr>
+    </table>
+  </div>
+
+  <div class="app-card" id="spot6">
+    <div class="spot-header"><span class="spot-icon">🍔</span><span class="spot-time">12:30</span><span class="spot-title">森のどうぶつレストラン ギボン亭</span></div>
+    <div class="carousel-outer">
+      <div class="carousel-wrapper">
+        <div class="carousel-item">
+          <svg viewBox="0 0 600 300"><rect width="100%" height="100%" fill="#e9ecef"/><text x="50%" y="50%" font-size="20" fill="#adb5bd" text-anchor="middle" dominant-baseline="middle">レストランの写真</text></svg>
+        </div>
+      </div>
+    </div>
+    <table class="info-table">
+      <tr><td class="label">営業</td><td class="value"><strong>11:00〜15:30 (L.O. 15:00)</strong></td></tr>
+      <tr><td class="label">定休日</td><td class="value">年中無休</td></tr>
+      <tr><td class="label">概要</td><td class="value">園内にあるレストラン。巨大カピバラぬいぐるみと相席できる！</td></tr>
+    </table>
+  </div>
+
+  <div class="day-badge" id="candidates">🗺️ その他の候補スポット</div>
+  
+  <div class="app-card">
+    <div class="spot-header"><span class="spot-icon">⛰️</span><span class="spot-title">大室山</span></div>
+    <table class="info-table">
+      <tr><td class="label">営業</td><td class="value">9:00〜16:15</td></tr>
+      <tr><td class="label">概要</td><td class="value">リフトで山頂に登り、火口の縁を散歩できます。</td></tr>
+    </table>
+  </div>
+
+  <div class="app-card">
+    <div class="spot-header"><span class="spot-icon">🪨</span><span class="spot-title">龍宮窟</span></div>
+    <table class="info-table">
+      <tr><td class="label">営業</td><td class="value">24時間見学自由</td></tr>
+      <tr><td class="label">概要</td><td class="value">洞窟から見下ろすと海がハート型に見える絶景スポット！</td></tr>
+    </table>
+  </div>
+
+  <div class="day-badge" style="color: #2e8b57;">💰 旅のまとめ</div>
+  <div class="app-card budget-card" id="budget">
+    <div class="spot-header" style="color: #d35400; margin-bottom: 0;">
+      <span class="spot-icon">💰</span>
+      <span class="spot-title" style="font-size: 14px;">概算予算（1人あたり）</span>
+    </div>
+    
+    <table class="info-table budget-table">
       <tr>
         <td class="label">交通費</td>
         <td class="value">
-          約 23,000円
-          <div class="budget-highlight">新幹線（往復）</div>
+          約 13,000円
+          <div class="budget-detail-box">特急「踊り子」指定席（東京〜伊豆高原 往復）</div>
         </td>
       </tr>
       <tr>
         <td class="label">宿泊費</td>
         <td class="value">
-          約 7,000円 〜 10,000円
-          <div class="budget-highlight">ホテル京阪 仙台（1泊・食事なし）</div>
+          約 8,000円 〜 15,000円
+          <div class="budget-detail-box">ヴィラージュ伊豆高原（素泊まり・各種割引プラン想定）</div>
         </td>
       </tr>
       <tr>
         <td class="label">現地移動費</td>
         <td class="value">
-          約 5,000円
-          <div class="budget-highlight">タクシー・地下鉄・バス代（割り勘分）</div>
+          約 4,000円
+          <div class="budget-detail-box">タクシー・路線バス代（割り勘分）</div>
         </td>
       </tr>
       <tr>
         <td class="label">食事・体験</td>
         <td class="value">
-          約 18,000円
-          <div class="budget-highlight">厚切り牛タン・ハス小舟・アクティビティ代など</div>
+          約 11,000円 〜 16,000円
+          <div class="budget-detail-box">シャボテン公園入園料・各種ランチ・夕食代など</div>
         </td>
       </tr>
       <tr>
-        <td class="label" style="font-weight:bold; padding-top:12px;">合計目安</td>
-        <td class="value" style="font-weight:bold; color:#d35400; padding-top:12px; font-size:16px;">
-          約 53,000円 〜 65,000円
-        </td>
+        <td class="total-label">合計目安</td>
+        <td class="total-value">約 36,000円 〜 48,000円</td>
       </tr>
     </table>
   </div>
 
   <div class="app-footer">
-    <a href="#spot1" class="footer-tab"><span class="footer-tab-icon">🛶</span><span class="footer-tab-text">伊豆沼</span></a>
-    <a href="#hotel" class="footer-tab"><span class="footer-tab-icon">🏨</span><span class="footer-tab-text">ホテル</span></a>
-    <a href="#dinner" class="footer-tab"><span class="footer-tab-icon">🥩</span><span class="footer-tab-text">牛タン</span></a>
-    <a href="#spot2" class="footer-tab"><span class="footer-tab-icon">🦁</span><span class="footer-tab-text">動物園</span></a>
-    <a href="#lunch" class="footer-tab"><span class="footer-tab-icon">🍣</span><span class="footer-tab-text">ランチ</span></a>
-    <a href="#spot3" class="footer-tab"><span class="footer-tab-icon">🏞️</span><span class="footer-tab-text">磊々峡</span></a>
+    <a href="#spot1" class="footer-tab"><span class="footer-tab-icon">🦢</span><span class="footer-tab-text">一碧湖</span></a>
+    <a href="#spot2" class="footer-tab"><span class="footer-tab-icon">🌊</span><span class="footer-tab-text">城ヶ崎</span></a>
+    <a href="#spot3" class="footer-tab"><span class="footer-tab-icon">🏨</span><span class="footer-tab-text">ヴィラ</span></a>
+    <a href="#dinner" class="footer-tab"><span class="footer-tab-icon">🍽️</span><span class="footer-tab-text">夕食</span></a>
+    <a href="#spot5" class="footer-tab"><span class="footer-tab-icon">🦙</span><span class="footer-tab-text">シャボテン</span></a>
+    <a href="#spot6" class="footer-tab"><span class="footer-tab-icon">🍔</span><span class="footer-tab-text">ギボン亭</span></a>
     <a href="#candidates" class="footer-tab"><span class="footer-tab-icon">🗺️</span><span class="footer-tab-text">候補地</span></a>
     <a href="#budget" class="footer-tab"><span class="footer-tab-icon">💰</span><span class="footer-tab-text">予算</span></a>
   </div>
